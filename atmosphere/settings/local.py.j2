@@ -155,6 +155,14 @@ AUTHENTICATION = {
     "GLOBUS_TOKEN_URL": '{{ GLOBUS_TOKEN_URL }}',
     "GLOBUS_TOKENINFO_URL": '{{ GLOBUS_TOKENINFO_URL }}',
     "GLOBUS_AUTH_URL": '{{ GLOBUS_AUTH_URL }}',
+
+    # OAUTH2
+    "OAUTH2_REDIRECT_URI": '{{ OAUTH2_REDIRECT_URI }}',
+    "OAUTH2_CLIENT_ID": r'{{ OAUTH2_CLIENT_ID }}',
+    "OAUTH2_CLIENT_SECRET": r'{{ OAUTH2_CLIENT_SECRET }}',
+    "OAUTH2_AUTHORIZE_URI": '{{ OAUTH2_AUTHORIZE_URI }}',
+    "OAUTH2_TOKEN_URI": '{{ OAUTH2_TOKEN_URI }}',
+    "OAUTH2_SCOPE": '{{ OAUTH2_SCOPE }}',
 }
 
 {% if AUTH_ENABLE_MOCK %}
@@ -189,6 +197,11 @@ AUTHENTICATION_BACKENDS = (
     {% if AUTH_ENABLE_LDAP %}
     # For Service-Access
     'iplantauth.authBackends.LDAPLoginBackend',
+    {% endif %}
+    {% if AUTH_ENABLE_OAUTH2 %}
+    'iplantauth.authBackends.OAuth2LoginBackend',
+    # Required to login to 'admin' if the *ONLY* backend is OAuth2LoginBackend
+    'django.contrib.auth.backends.ModelBackend',
     {% endif %}
 )
 # UPDATE REST_FRAMEWORK
