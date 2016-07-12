@@ -36,13 +36,13 @@ def send_email_template(subject, template, recipients, sender,
     Return task to send an email using the template provided
     """
     body = render_to_string(template, context=Context(context))
-    args = (subject, body, recipients, sender)
+    args = (subject, body, sender, recipients)
     kwargs = {
         "cc": cc,
         "fail_silently": silent,
         "html": html
     }
-    return send_email_task.si(*args, **kwargs)
+    return send_email.si(*args, **kwargs)
 
 
 def email_address_str(name, email):
@@ -316,7 +316,7 @@ def send_denied_resource_email(user, request, reason):
 
 
 def send_instance_email(username, instance_id, instance_name,
-                        ip, launched_at, linuxusername):
+                        ip, launched_at, linuxusername, user_failure=False, user_failure_message=""):
     """
     Sends an email to the user providing information about the new instance.
 
@@ -361,6 +361,8 @@ def send_instance_email(username, instance_id, instance_name,
         "instance_name": instance_name,
         "instance_ip": ip,
         "sshuser": linuxusername,
+        "user_failure": user_failure,
+        "user_failure_message": user_failure_message,
         "launched_at": launched_at.strftime(format_string),
         "local_launched_at": local_launched_at.strftime(format_string)
     }

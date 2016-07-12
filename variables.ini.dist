@@ -8,6 +8,7 @@ DJANGO_SERVER_URL = ; https://www.my-website.com
 
 [nginx]
 ATMOSPHERE_PATH = ; /path/to/atmosphere
+ENABLE_HTTP2 = ; True if nginx has http-v2 module; otherwise False
 BUNDLE_FILE = ; selfsigned_bundle.crt
 CERT_DIR = ; /etc/ssl/certs
 CERT_FILE = ; selfsigned_server.crt
@@ -39,6 +40,7 @@ AUTH_ENABLE_MOCK = ; True
 AUTH_ENABLE_GLOBUS = ; False
 AUTH_ENABLE_CAS = ; False
 AUTH_ENABLE_LDAP = ; False
+AUTH_ENABLE_JWT = ; False
 ANSIBLE_ROOT = ; /path/to/atmosphere-ansible
 LOGOUT_REDIRECT_URL = ; /logout
 CAS_AUTH_PREFIX = ; /
@@ -109,6 +111,7 @@ OAUTH2_CLIENT_SECRET = ; r'secret_from_oauth_provider'
 OAUTH2_AUTHORIZE_URI = ; 'https://oauth.provider.com/oauth/authorize'
 OAUTH2_TOKEN_URI = ; 'https://oauth.provider.com/oauth/token'
 OAUTH2_SCOPE = ; 'basic'
+DEPLOYMENT_KEYPAIR_NAME = ; keypair name inject by atmo-ansible during instance deploy
 
 #NOTE: Their are *REQUIRED* quotations around 'timedelta(..)'!
 CELERYBEAT_SCHEDULE = ; {"monitor_instances": {"schedule": 'timedelta(minutes=5)',}}
@@ -142,3 +145,12 @@ SSL_LOCATION= ; /etc/ssl
 SSL_CERTIFICATE= ; selfsigned_server.crt
 SSL_KEY= ; selfsigned_server.key
 USE_PRODUCTION= ; True
+FLOWER_AUTH_SCHEME=; "basic" or "google"
+# if flower_auth_opt == 'basic'
+FLOWER_BASIC_USERNAME= ; username
+FLOWER_BASIC_PASSWORD= ; password
+# elif flower_auth_opt == 'google'
+FLOWER_EMAIL_ACCESS_LIST= ; "me@gmail.com|you@gmail.com"
+FLOWER_OAUTH2_CLIENT_ID= ; "123xyz.apps.googleusercontent.com"
+FLOWER_OAUTH2_CLIENT_SECRET= ; "client_secret_here"
+FLOWER_OAUTH2_REDIRECT_URI= ; "server_redirect_url/flower/login"
